@@ -11,8 +11,6 @@ class BaseTest {
 
     @Test
     public void testMD5() {
-        byte[] bytes = new String("ayufan").getBytes();
-
         System.out.println(MD5Util.MD5("ayufan"));
     }
 
