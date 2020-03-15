@@ -1,8 +1,16 @@
 
 server:
-  port: 8080
+  port: 8443
   servlet:
     context-path: /jnmap
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: 123456
+    keyStoreType: PKCS12
+    keyAlias: myalias
+
+http:
+  port: 8080
 
 spring:
   application:
