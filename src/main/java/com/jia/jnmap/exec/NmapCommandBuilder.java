@@ -392,21 +392,21 @@ public class NmapCommandBuilder {
 
         private final CommandLine commandLine;
 
-        @Override
-        public CommandLine target(InetStyeSegment... segments) {
-            for (InetStyeSegment segment : segments) {
-                commandLine.addArgument(segment.netmark());
-            }
-            return commandLine;
-        }
-
-        @Override
-        public CommandLine target(InetStyeAddress... addresses) {
-            for (InetStyeAddress address : addresses) {
-                commandLine.addArgument(address.netmark());
-            }
-            return commandLine;
-        }
+//        @Override
+//        public CommandLine target(InetStyeSegment... segments) {
+//            for (InetStyeSegment segment : segments) {
+//                commandLine.addArgument(segment.netmark());
+//            }
+//            return commandLine;
+//        }
+//
+//        @Override
+//        public CommandLine target(InetStyeAddress... addresses) {
+//            for (InetStyeAddress address : addresses) {
+//                commandLine.addArgument(address.netmark());
+//            }
+//            return commandLine;
+//        }
 
         @Override
         public CommandLine target(boolean withBanner, String... netmarks) {
@@ -852,9 +852,9 @@ public class NmapCommandBuilder {
 
         CommandLine target(boolean withBanner, String... netmarks);
 
-        CommandLine target(InetStyeSegment... segments);
-
-        CommandLine target(InetStyeAddress... addresses);
+//        CommandLine target(InetStyeSegment... segments);
+//
+//        CommandLine target(InetStyeAddress... addresses);
 
         CommandLine targetFromFile(File file);
 
