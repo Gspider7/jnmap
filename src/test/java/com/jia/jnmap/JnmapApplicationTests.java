@@ -7,6 +7,8 @@ import org.apache.commons.exec.CommandLine;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +20,10 @@ import java.util.List;
 class JnmapApplicationTests {
 
     @Test
-    void contextLoads() {
+    void contextLoads() throws IOException {
+        Resource resource = new ClassPathResource("");
+
+        System.out.println(resource.getFile().getAbsolutePath());
     }
 
 
