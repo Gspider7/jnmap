@@ -100,6 +100,14 @@
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>1.2.10</version>
         </dependency>
+
+        <!-- 嵌入式infinispan缓存 -->
+        <dependency>
+            <groupId>org.infinispan</groupId>
+            <artifactId>infinispan-embedded</artifactId>
+            <version>9.1.7.Final</version>
+        </dependency>
+
     </dependencies>
 
     <build>

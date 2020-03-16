@@ -12,6 +12,10 @@ public enum NmapOption {
     SCAN_LIST(new String[]{"-sL"}, "主机发现 —— 列表扫描，打印网段内的主机地址列表和域名（如果有），像其它一些高级功能如端口扫描，操作系统探测或者Ping扫描的选项就没有了"),
     PING_SCAN(new String[]{"-sP"}, "主机发现 —— ping扫描"),
 
+    SERVICE_VERSION(new String[]{"-sV"}, "服务/版本探测"),
+
+    OS_DETECTION(new String[]{"-O"}, "操作系统发现"),
+
     OUTPUT_XML(new String[]{"-oX", "-"}, "指定输出格式为xml"),
     ;
 
