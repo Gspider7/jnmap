@@ -36,7 +36,7 @@ public class InfinispanCacheConfig {
         // infinispan本地缓存配置
         org.infinispan.configuration.cache.Configuration config = new ConfigurationBuilder()
                 .memory().size(1024)
-                .persistence().passivation(false).addSingleFileStore().location(projectHome + "/infinispan")    // 使用本地存储
+                .persistence().passivation(false).addSingleFileStore().shared(false).location(projectHome + "/infinispan")    // 使用本地存储
 //                .eviction().size(1024000).strategy(EvictionStrategy.LRU)                // 缓存淘汰机制：最少使用
                 .build();
 
