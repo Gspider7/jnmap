@@ -3,6 +3,7 @@ package com.jia.jnmap;
 import com.jia.jnmap.exec.NotifiableNmapEngine;
 import com.jia.jnmap.utils.MD5Util;
 import org.apache.commons.exec.CommandLine;
+import org.apache.commons.io.IOUtils;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.List;
 
 /**
@@ -40,6 +42,10 @@ class BaseTest {
 
         NotifiableNmapEngine engine = new NotifiableNmapEngine();
         InputStream is = engine.execute(cmd);
+
+        StringWriter writer = new StringWriter();
+        IOUtils.copy(is, writer, "UTF-8");
+        String xmlStr = writer.toString();
 
         // 使用dom4j解析xml
         SAXReader saxReader = new SAXReader();
