@@ -1,0 +1,44 @@
+
+server:
+  port: 8443
+  servlet:
+    context-path: /jnmap
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: 123456
+    keyStoreType: PKCS12
+    keyAlias: myalias
+
+http:
+  port: 8080
+
+spring:
+  application:
+    name: jnmap
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 500MB
+      max-request-size: 500MB
+
+  datasource:
+      druid:
+        driverClassName: com.mysql.jdbc.Driver
+        url:  jdbc:mysql://localhost:3306/jnmap?useUnicode=true&characterEncoding=utf8
+        username: root
+        password: ayufan
+        initialSize: 5
+        minIdle: 5
+        maxActive: 20
+        maxWait: 60000                                # 获取连接的超时等待时间
+        timeBetweenEvictionRunsMillis: 60000          # 检查要关闭的空闲连接
+        min-evictableIdleTimeMillis: 30000            # 连接空闲多久后关闭
+        validationQuery: SELECT 1
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+
+mybatis:
+  mapper-locations: classpath:mapxml/*.xml
+  type-aliases-package: com.jia.jnmap.entity
