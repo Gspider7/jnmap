@@ -1,10 +1,11 @@
 package com.jia.jnmap.controller;
 
+import com.jia.jnmap.context.JnmapCache;
 import com.jia.jnmap.utils.UUIDUtil;
 import com.jia.jnmap.utils.WebUtil;
 import com.jia.jnmap.utils.ZipUtil;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.infinispan.Cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -36,6 +38,7 @@ public class VulnController {
 
     @RequestMapping(value = "/test", method = {RequestMethod.GET, RequestMethod.POST})
     public String testUpload(Model model) {
+        Cache cache = JnmapCache.getTestCache();
 
         model.addAttribute("key", "value");
         return "upload";
@@ -50,7 +53,7 @@ public class VulnController {
         // 上传多个文件
         List<MultipartFile> mpfs = ((MultipartHttpServletRequest) request).getFiles("file");
 
-        String projectHome = System.getProperty("user.dir");
+        String projectHome = System.getProperty("user.dir");    // springboot项目根目录
         String path = projectHome + "/data";
         new File(path).mkdirs();
 
@@ -58,11 +61,14 @@ public class VulnController {
             // 保存到本地
 //            String fileName = MessageFormat.format("upload-{0}", UUIDUtil.uuid());
             String fileName = UUIDUtil.uuid() + ".zip";
-            File file = FileUtils.getFile(path, fileName);
-            IOUtils.copy(mpf.getInputStream(), new FileOutputStream(file));
+            File file = new File(path, fileName);
+
+            OutputStream os = new FileOutputStream(file);
+            IOUtils.copy(mpf.getInputStream(), os);
+            os.close();
 
             // 解压缩，加载漏洞库
-            ZipUtil.unZip(file, path);
+            ZipUtil.unzip(file, path);
 //            getVulnerabilityLoader().loadCnnvd();
 //            getVulnerabilityLoader().loadCve();
 //            getVulnerabilityLoader().cleanCache();

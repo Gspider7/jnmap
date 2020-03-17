@@ -1,0 +1,25 @@
+<infinispan>
+    <cache-container>
+        <!-- 解决异常org.infinispan.jmx.JmxDomainConflictException: ISPN000034 -->
+        <jmx duplicate-domains="true" />
+
+        <!-- 缓存配置模板，可复用 -->
+        <local-cache-configuration name="local-template">
+            <memory>
+                <object size="2000"/>
+            </memory>
+            <persistence passivation="false">
+                <file-store
+                        shared="false" preload="true"
+                        fetch-state="true"
+                        read-only="false"
+                        purge="false"
+                        path="${user.dir}/infinispan">
+                    <write-behind thread-pool-size="5" />
+                </file-store>
+            </persistence>
+        </local-cache-configuration>
+
+        <local-cache name="test" configuration="local-template" />
+    </cache-container>
+</infinispan>

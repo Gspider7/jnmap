@@ -5,7 +5,6 @@ import org.infinispan.configuration.cache.ConfigurationBuilder;
 import org.infinispan.manager.DefaultCacheManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * infinispan缓存配置
@@ -15,7 +14,6 @@ import org.springframework.context.annotation.Configuration;
  * @version 1.0.0
  * @date 2020-03-16 11:47
  */
-@Configuration
 public class InfinispanCacheConfig {
 
     @Autowired
