@@ -5,7 +5,7 @@
  * FILE: NmapScanTechnique.java
  * (C) Copyright Scout Team 2018, All Rights Reserved.
  *****************************************************************************/
-package com.jia.jnmap.exec;
+package com.jia.jnmap.nmap.exec;
 
 /**
  * 

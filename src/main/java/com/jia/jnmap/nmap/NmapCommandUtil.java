@@ -1,6 +1,6 @@
-package com.jia.jnmap.utils.nmap;
+package com.jia.jnmap.nmap;
 
-import com.jia.jnmap.exec.NmapOption;
+import com.jia.jnmap.nmap.exec.NmapOption;
 import org.apache.commons.exec.CommandLine;
 
 import java.util.List;

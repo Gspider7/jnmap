@@ -1,9 +1,8 @@
 package com.jia.jnmap;
 
-import com.jia.jnmap.exec.NotifiableNmapEngine;
+import com.jia.jnmap.nmap.exec.NotifiableNmapEngine;
 import com.jia.jnmap.utils.MD5Util;
 import org.apache.commons.exec.CommandLine;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
@@ -15,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.text.MessageFormat;
 import java.util.List;
 
 /**

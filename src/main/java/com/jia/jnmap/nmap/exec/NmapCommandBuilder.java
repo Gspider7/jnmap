@@ -5,7 +5,7 @@
  * FILE: NmapCommandBuilder.java
  * (C) Copyright Scout Team 2018, All Rights Reserved.
  *****************************************************************************/
-package com.jia.jnmap.exec;
+package com.jia.jnmap.nmap.exec;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.io.FileUtils;

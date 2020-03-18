@@ -1,4 +1,4 @@
-package com.jia.jnmap.exec;
+package com.jia.jnmap.nmap.exec;
 
 import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.OS;

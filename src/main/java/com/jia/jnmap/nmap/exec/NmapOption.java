@@ -1,4 +1,4 @@
-package com.jia.jnmap.exec;
+package com.jia.jnmap.nmap.exec;
 
 /**
  * nmap命令参数

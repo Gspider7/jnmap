@@ -5,7 +5,7 @@
  * FILE: NmapScanCategory.java
  * (C) Copyright Scout Team 2018, All Rights Reserved.
  *****************************************************************************/
-package com.jia.jnmap.exec;
+package com.jia.jnmap.nmap.exec;
 
 import java.util.LinkedList;
 import java.util.List;

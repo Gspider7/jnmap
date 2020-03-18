@@ -5,7 +5,7 @@
  * FILE: ProcessedNmapEngine.java
  * (C) Copyright Scout Team 2017, All Rights Reserved.
  *****************************************************************************/
-package com.jia.jnmap.exec;
+package com.jia.jnmap.nmap.exec;
 
 import org.apache.commons.exec.*;
 import org.apache.commons.io.input.NullInputStream;

@@ -1,8 +1,8 @@
 package com.jia.jnmap;
 
-import com.jia.jnmap.exec.NmapOption;
-import com.jia.jnmap.exec.NotifiableNmapEngine;
-import com.jia.jnmap.utils.nmap.NmapCommandUtil;
+import com.jia.jnmap.nmap.exec.NmapOption;
+import com.jia.jnmap.nmap.exec.NotifiableNmapEngine;
+import com.jia.jnmap.nmap.NmapCommandUtil;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
