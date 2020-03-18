@@ -3,6 +3,7 @@ package com.jia.jnmap;
 import com.jia.jnmap.exec.NotifiableNmapEngine;
 import com.jia.jnmap.utils.MD5Util;
 import org.apache.commons.exec.CommandLine;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
@@ -13,9 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
+import java.io.*;
+import java.text.MessageFormat;
 import java.util.List;
 
 /**
@@ -29,6 +29,14 @@ class BaseTest {
     @Test
     public void testMD5() {
         System.out.println(MD5Util.MD5("ayufan"));
+    }
+
+    @Test
+    public void testString() {
+        String s = "aaa.txt";
+
+
+        System.out.println(s.substring(s.lastIndexOf(".")));
     }
 
     @Test
