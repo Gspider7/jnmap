@@ -1,6 +1,7 @@
 package com.jia.jnmap.controller;
 
 import com.jia.jnmap.context.JnmapCache;
+import com.jia.jnmap.nmap.vuln.VulnerabilityLoader;
 import com.jia.jnmap.utils.UUIDUtil;
 import com.jia.jnmap.utils.WebUtil;
 import com.jia.jnmap.utils.ZipUtil;
@@ -8,6 +9,7 @@ import org.apache.commons.io.IOUtils;
 import org.infinispan.Cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +22,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
@@ -36,6 +37,15 @@ public class VulnController {
 
     private static final Logger logger = LoggerFactory.getLogger(VulnController.class);
 
+    // ------------------------------------------------------------------------------------
+
+    @Autowired
+    VulnerabilityLoader vulnerabilityLoader;
+
+
+    // ------------------------------------------------------------------------------------
+
+
     @RequestMapping(value = "/test", method = {RequestMethod.GET, RequestMethod.POST})
     public String testUpload(Model model) {
         Cache cache = JnmapCache.getTestCache();
@@ -49,7 +59,7 @@ public class VulnController {
      */
     @ResponseBody
     @PostMapping("/upload")
-    public String uploadVulnStore(HttpServletRequest request) throws IOException {
+    public String uploadVulnStore(HttpServletRequest request) throws Exception {
         // 上传多个文件
         List<MultipartFile> mpfs = ((MultipartHttpServletRequest) request).getFiles("file");
 
@@ -67,11 +77,13 @@ public class VulnController {
             IOUtils.copy(mpf.getInputStream(), os);
             os.close();
 
-            // 解压缩，加载漏洞库
+            // 解压缩
             ZipUtil.unzip(file, path);
-//            getVulnerabilityLoader().loadCnnvd();
-//            getVulnerabilityLoader().loadCve();
-//            getVulnerabilityLoader().cleanCache();
+
+            // 加载漏洞库
+            vulnerabilityLoader.loadCnnvd();
+            vulnerabilityLoader.loadCve();
+            vulnerabilityLoader.cleanCache();
 
             // 删除临时文件
             file.delete();

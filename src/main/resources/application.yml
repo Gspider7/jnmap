@@ -46,3 +46,4 @@ spring:
 mybatis:
   mapper-locations: classpath:mapxml/*.xml
   type-aliases-package: com.jia.jnmap.entity
+  type-handlers-package: com.jia.jnmap.nmap.mybatis
