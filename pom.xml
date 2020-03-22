@@ -67,7 +67,17 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.9</version>
+            <version>3.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.6</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.9</version>
         </dependency>
 
         <!-- xml解析 -->
@@ -101,6 +111,13 @@
             <version>1.2.10</version>
         </dependency>
 
+        <!-- h2数据库驱动 -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.200</version>
+        </dependency>
+
         <!-- 解压缩工具包 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -122,23 +139,48 @@
             <version>1.2.61</version>
         </dependency>
 
-
+        <!-- cpe解析匹配，通过mvn命令将外部jar安装到本地仓库 -->
         <dependency>
             <groupId>com.gaff</groupId>
             <artifactId>staff-nist</artifactId>
             <version>1.1.8</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/staff-nist-1.1.8.jar</systemPath>
         </dependency>
-
-
+        <dependency>
+            <groupId>com.gaff</groupId>
+            <artifactId>guava</artifactId>
+            <version>23.6.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/guava-23.6.1.jar</systemPath>
+        </dependency>
     </dependencies>
 
+
+
     <build>
+        <!-- 解决引入了本地jar后导致的NoClassDefFoundError异常 -->
+        <!--<resources>
+            <resource>
+                <directory>lib</directory>
+                <targetPath>BOOT-INF/lib/</targetPath>
+                <includes>
+                    <include>**/*.jar</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <targetPath>BOOT-INF/classes/</targetPath>
+            </resource>
+        </resources>-->
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
+                    <includeSystemScope>true</includeSystemScope>
                 </configuration>
             </plugin>
 

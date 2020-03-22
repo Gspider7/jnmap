@@ -17,11 +17,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class HttpToHttpsConfig {
 
+    @Value("${server.port}")
+    private Integer httpsPort;
+
     @Value("${http.port}")
     private Integer port;
 
-    @Value("${server.port}")
-    private Integer httpsPort;
 
     @Bean
     public ServletWebServerFactory servletContainer() {

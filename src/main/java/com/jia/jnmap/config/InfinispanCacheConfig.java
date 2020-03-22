@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 
 /**
- * infinispan缓存配置
+ * infinispan本地缓存配置（已弃用）
  * 参考：
  *      https://infinispan.org/docs/stable/titles/embedding/embedding.html
  *      https://infinispan.org/docs/stable/titles/configuring/configuring.html#cache_configuration

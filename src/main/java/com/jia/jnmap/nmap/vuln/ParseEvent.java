@@ -1,7 +1,7 @@
 package com.jia.jnmap.nmap.vuln;
 
 
-import com.jia.jnmap.nmap.entity.Vulnerability;
+import com.jia.jnmap.entity.Vulnerability;
 
 public interface ParseEvent {
 

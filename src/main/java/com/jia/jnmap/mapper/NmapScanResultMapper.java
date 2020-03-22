@@ -1,6 +1,6 @@
 package com.jia.jnmap.mapper;
 
-import com.jia.jnmap.nmap.entity.NmapScanResult;
+import com.jia.jnmap.entity.NmapScanResult;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

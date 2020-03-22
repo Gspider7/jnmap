@@ -2,7 +2,7 @@ package com.jia.jnmap.nmap;
 
 import com.gaff.staff.cpe.WFN;
 import com.jia.jnmap.mapper.NmapScanResultMapper;
-import com.jia.jnmap.nmap.entity.NmapScanResult;
+import com.jia.jnmap.entity.NmapScanResult;
 import com.jia.jnmap.nmap.entity.PortInfo;
 import com.jia.jnmap.nmap.entity.SystemInfo;
 import com.jia.jnmap.nmap.vuln.VulnerabilityLoader;

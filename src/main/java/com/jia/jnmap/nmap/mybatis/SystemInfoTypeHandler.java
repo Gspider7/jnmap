@@ -1,7 +1,7 @@
 package com.jia.jnmap.nmap.mybatis;
 
 import com.alibaba.fastjson.JSON;
-import com.gaff.scout.v3.entity.SystemInfo;
+import com.jia.jnmap.nmap.entity.SystemInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;

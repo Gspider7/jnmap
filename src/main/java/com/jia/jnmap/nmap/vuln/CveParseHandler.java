@@ -7,7 +7,7 @@ import com.gaff.staff.cpe.WFN;
 import com.jia.jnmap.nmap.entity.Cpe;
 import com.jia.jnmap.nmap.entity.MatchRule;
 import com.jia.jnmap.nmap.entity.Ref;
-import com.jia.jnmap.nmap.entity.Vulnerability;
+import com.jia.jnmap.entity.Vulnerability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
