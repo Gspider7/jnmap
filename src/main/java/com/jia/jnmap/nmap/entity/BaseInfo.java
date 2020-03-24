@@ -6,8 +6,8 @@ import java.util.Objects;
 
 public class BaseInfo {
 
+    // cpe
     private String cpe;
-
     // 匹配到的漏洞id列表
     private List<String> vulnerability = new ArrayList<>();
 

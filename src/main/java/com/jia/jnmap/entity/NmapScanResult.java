@@ -9,26 +9,27 @@ import java.util.Objects;
 
 public class NmapScanResult {
 
+    // UUID
     private String id;
-
+    // 扫描id
     private String scanId;
 
     private String scanPlanId;
 
     private String templateId;
-
+    // 扫描时间
     private String scanTime;
-
+    // ipv4地址
     private String ipv4Address;
 
     private String ipv6Address;
-
+    // mac地址
     private String macAddress;
-
+    // 主机名
     private String hostname;
-
+    // 主机端口信息
     private ArrayList<PortInfo> portInfos = new ArrayList<>();
-
+    // 主机操作系统信息
     private SystemInfo systemInfo;
 
     private ArrayList<ScriptInfo> scriptInfos = new ArrayList<>();

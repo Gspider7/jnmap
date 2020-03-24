@@ -39,11 +39,13 @@ public class NmapScanner extends DefaultHandler {
 //    @Autowired
 //    private LstBean lstBean;
 
-    public void doResult(String scanPlanId, String scanId, String templateId, List<String> nmapResults, boolean isMatchVuln) throws DocumentException {
+//    public void doResult(String scanPlanId, String scanId, String templateId, List<String> nmapResults, boolean isMatchVuln) throws DocumentException {
+    public void doResult(String scanId, List<String> nmapResults) throws DocumentException {
         List<NmapScanResult> nmapScanResults = new ArrayList<>();
         for (String nmapResult : nmapResults) {
             try {
-                List<NmapScanResult> list = parseScanResult(scanPlanId, scanId, templateId, nmapResult);
+//                List<NmapScanResult> list = parseScanResult(scanPlanId, scanId, templateId, nmapResult);
+                List<NmapScanResult> list = parseScanResult(scanId, nmapResult);
                 if (list != null && list.size() > 0) {
                     nmapScanResults.addAll(list);
                 }
@@ -51,18 +53,21 @@ public class NmapScanner extends DefaultHandler {
                 logger.error(MessageFormat.format("parseScanResult error, nmapResult = {0}", nmapResult), e);
             }
         }
-        if (isMatchVuln) {
-            logger.info("开始分析漏洞...");
-            loader.matchVulnerability(nmapScanResults);
-            logger.info("漏洞分析完成");
-        }
+
+        // 执行漏洞匹配
+        logger.info("开始分析漏洞...");
+        loader.matchVulnerability(nmapScanResults);
+        logger.info("漏洞分析完成");
+
+        // 保存解析出的扫描结果和匹配的漏洞
         for (NmapScanResult nmapScanResult : nmapScanResults) {
             mapper.insertSelective(nmapScanResult);
         }
     }
 
-
-    private List<NmapScanResult> parseScanResult(String scanPlanId, String scanId, String templateId, String nmapResult) throws DocumentException {
+    // 解析nmap命令执行的xml输出
+//    private List<NmapScanResult> parseScanResult(String scanPlanId, String scanId, String templateId, String nmapResult) throws DocumentException {
+    private List<NmapScanResult> parseScanResult(String scanId, String nmapResult) throws DocumentException {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(nmapResult.getBytes());
         SAXReader reader = new SAXReader();
         Document document = reader.read(inputStream);
@@ -74,10 +79,10 @@ public class NmapScanner extends DefaultHandler {
         hostElements.parallelStream().forEach(hostElement -> {
             NmapScanResult nmapScanResult = new NmapScanResult();
             nmapScanResult.setId(UUIDUtil.uuid());
-            nmapScanResult.setScanPlanId(scanPlanId);
+//            nmapScanResult.setScanPlanId(scanPlanId);
             nmapScanResult.setScanTime(scanTime);
             nmapScanResult.setScanId(scanId);
-            nmapScanResult.setTemplateId(templateId);
+//            nmapScanResult.setTemplateId(templateId);
             List<Element> addressElements = hostElement.elements("address");
             for (Element addressElement : addressElements) {
                 String type = addressElement.attributeValue("addrtype");
@@ -95,6 +100,7 @@ public class NmapScanner extends DefaultHandler {
                 nmapScanResult.setHostname(hostnameElements.get(0).attributeValue("name"));
             }
 
+            // 端口扫描结果
             SystemInfo portSystemInfo = null;
             List<Element> portElements = hostElement.element("ports").elements("port");
             for (Element portElement : portElements) {
@@ -119,9 +125,12 @@ public class NmapScanner extends DefaultHandler {
                         Element bestCpeElement = null;
                         for (Element ele : cpeElements) {
                             String text = ele.getTextTrim().toLowerCase();
+                            // cpe的完整格式为：cpe:/<part>:<vendor>:<product>:<version>:<update>:<edition>:<language>
+                            // cpe:/a: = application应用程序
                             if (text.startsWith("cpe:/a:")) {
                                 bestCpeElement = ele;
                             }
+                            // cpe:/o: = os操作系统
                             if (text.startsWith("cpe:/o:microsoft:windows") && portSystemInfo == null) {
                                 portSystemInfo = new SystemInfo();
                                 portSystemInfo.setName("UNKNOW");
@@ -133,6 +142,7 @@ public class NmapScanner extends DefaultHandler {
                         if (bestCpeElement == null) {
                             bestCpeElement = cpeElements.get(0);
                         }
+                        // cpe版本格式转换：22 -> 23
                         if (WFN.isV22(bestCpeElement.getTextTrim())) {
                             portInfo.setCpe(WFN.forURI22(bestCpeElement.getTextTrim()).toURI23());
                         }
@@ -158,6 +168,7 @@ public class NmapScanner extends DefaultHandler {
                 nmapScanResult.addPortInfo(portInfo);
             }
 
+            // 操作系统匹配结果
             List<Element> osElements = hostElement.element("os").elements("osmatch");
             if (osElements == null || osElements.size() == 0) {
                 if (portSystemInfo == null) {
@@ -196,8 +207,6 @@ public class NmapScanner extends DefaultHandler {
                         systemInfo.setCpe(WFN.forURI22(cpeElement.getTextTrim()).toURI23());
                     }
                 }
-
-
                 nmapScanResult.setSystemInfo(systemInfo);
 
                 Element hostscriptElement = hostElement.element("hostscript");

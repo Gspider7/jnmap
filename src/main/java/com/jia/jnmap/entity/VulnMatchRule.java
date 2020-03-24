@@ -6,10 +6,11 @@ import java.util.ArrayList;
 
 public class VulnMatchRule {
 
+    // 漏洞id
     private String id;
-
+    // cnnvd匹配规则
     private ArrayList<MatchRule> cnnvdMatchRules;
-
+    // cve匹配规则
     private ArrayList<MatchRule> cveMatchRules;
 
     public String getId() {

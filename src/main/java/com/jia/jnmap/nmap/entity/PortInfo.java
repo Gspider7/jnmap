@@ -5,14 +5,15 @@ import java.util.List;
 
 public class PortInfo extends BaseInfo {
 
+    // 端口号
     private Integer port;
-
+    // 协议
     private String protocol;
-
+    // 服务名称
     private String name;
-
+    // 产品名称
     private String product;
-
+    // 服务版本号
     private String version;
 
     private String banner;
