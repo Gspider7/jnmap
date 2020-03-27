@@ -1,0 +1,218 @@
+.table-no-border tbody tr td:first-child {
+    border-left: 1px solid #dddddd;
+}
+
+.table-no-border tbody tr:last-child td {
+    border-bottom: 1px solid #dddddd;
+}
+
+.btn-default {
+    width: 96px;
+    height: 34px;
+    background-image: none !important;
+    background: #ffffff;
+}
+
+.tableGfax {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+    border-spacing: 0;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+#titlestylmlColor button {
+    background: url('../img/up.gif') no-repeat;
+}
+
+.tableGfax tr th,
+.tableGfax tr td {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border: 1px solid #ddd;
+}
+
+.tableGfax tbody tr:nth-child(even),
+.table tbody tr:nth-child(odd) td {
+    background: #F2F2F2;
+}
+
+.table tbody tr td,
+.tableGfax tbody tr td {
+    color: #122347;
+}
+
+.tableGfax tbody tr th {
+    color: #333333;
+}
+
+.table > thead > tr th:last-child,
+.table > tbody > tr th:last-child {
+    border-right: 0;
+
+}
+
+.table > thead:first-child > tr:first-child > th {
+    border-bottom: 0;
+    border-left: 0;
+}
+
+.table > tbody > tr > th {
+    border-left: 0;
+}
+
+.table > tbody > tr > td {
+    border-bottom: 0;
+    border-left: 0;
+}
+
+button {
+    float: right;
+    font-size: 14px;
+    width: 16px;
+    height: 16px;
+    border: none;
+    margin-top: 5px;
+    outline: none;
+}
+
+button:first-child {
+    background: url("../img/down.gif") no-repeat;
+}
+
+.buttonmlimg {
+    background: url("../img/down.gif") no-repeat !important;
+}
+
+.buttonTopimg {
+    background: url("../img/up.gif") no-repeat !important;
+}
+
+.titleDivmlbckcolor {
+    background: #eeeeee !important;
+}
+
+.titleDivbckcolor {
+    background: #ffffff !important;
+}
+
+#titlestylrwColor,
+#titlestylzjColor,
+#titlestylldColor,
+#titlestylgaffsmbColor,
+#titlestylhydraColor,
+#titlestylpocColor,
+#titlestyltjColor,
+#titlestylmlColor,
+#titlestylsjColor,
+#titlestylbgColor,
+#titlestylbzColor,
+#titlestylzjColor,
+#titlestylkgColor,
+#titlestylgcColor,
+#titlestylld2Color {
+    background: #eeeeee;
+    font-size: 20px;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 600;
+}
+
+#div-stylerw,
+#div-stylesj,
+#div-stylezj,
+#div-styleld,
+#div-stylegc,
+#div-stylebz {
+    display: block;
+
+}
+
+table tbody,
+table thead {
+    font-size: 14px;
+}
+
+#div-styleml ul li a {
+    display: block;
+    text-decoration: none;
+    color: dodgerblue
+}
+
+#div-styleml ul li {
+    list-style: none;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#div-styleml ul li:hover {
+    background: #eeeeee;
+
+}
+
+.tdzs-img {
+    display: inline-block;
+    margin-right: 5px;
+    width: 9px;
+    height: 9px;
+    background: url("../img/plus.gif") no-repeat;
+    background-size: cover;
+}
+
+.divtitleChidren {
+    height: 40px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.tdzs-Zkimg {
+    background: url("../img/minus.gif") no-repeat !important;
+}
+
+.trNone {
+    display: none;
+}
+
+.fxdjImg {
+    margin-right: 3px;
+    transform: translateY(-2px)
+}
+
+.overBottom {
+    background: #eee;
+    margin-top: 28px;
+}
+
+.overBottom svg {
+    transform: translate(1px, 5px);
+}
+
+.zjlbImg {
+    width: 16px;
+    transform: translateY(-2px);
+}
+
+.tbodytrClick tr {
+    cursor: pointer;
+}
+
+.tbodytrClick tr:first-child {
+    cursor: auto;
+}
+
+.badge1 {
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    /*color: #fff;*/
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    /*background-color: #777;*/
+    border-radius: 10px;
+}
