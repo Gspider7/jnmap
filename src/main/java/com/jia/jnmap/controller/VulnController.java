@@ -3,13 +3,12 @@ package com.jia.jnmap.controller;
 import com.jia.jnmap.context.JnmapCache;
 import com.jia.jnmap.nmap.vuln.VulnerabilityLoader;
 import com.jia.jnmap.utils.UUIDUtil;
-import com.jia.jnmap.utils.WebUtil;
+import com.jia.jnmap.utils.ResponseUtil;
 import com.jia.jnmap.utils.ZipUtil;
 import org.apache.commons.io.IOUtils;
 import org.infinispan.Cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -39,7 +39,7 @@ public class VulnController {
 
     // ------------------------------------------------------------------------------------
 
-    @Autowired
+    @Resource
     VulnerabilityLoader vulnerabilityLoader;
 
 
@@ -89,6 +89,6 @@ public class VulnController {
             file.delete();
         }
 
-        return WebUtil.success();
+        return ResponseUtil.success();
     }
 }

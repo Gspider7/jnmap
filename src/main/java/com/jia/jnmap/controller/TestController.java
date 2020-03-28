@@ -29,7 +29,7 @@ public class TestController {
 
     @RequestMapping("/user")
     public String getTestUser() {
-        User user = userMapper.selectByPrimaryKey(1L);
+        User user = userMapper.selectByUsername("test");
 
         if (user != null) {
             return user.getUsername() + user.getPassword();

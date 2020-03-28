@@ -1,15 +1,20 @@
 package com.jia.jnmap.entity;
 
-import java.util.Date;
-
 public class User {
+
     private Long id;
 
     private String username;
 
     private String password;
 
-    private Date createTime;
+    public User() {
+    }
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     public Long getId() {
         return id;
@@ -33,13 +38,5 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password == null ? null : password.trim();
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
     }
 }
