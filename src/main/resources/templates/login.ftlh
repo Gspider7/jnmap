@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <#assign ctx=springMacroRequestContext.contextPath />
 
@@ -7,11 +7,7 @@
     <title>登录</title>
 
     <script src="${ctx}/static/js/jquery-3.3.1.min.js"></script>
-    <script src="${ctx}/static/js/md5.js"></script>
-
     <script src="${ctx}/static/js/bootstrap.min.js"></script>
-    <script src="${ctx}/static/js/popper.min.js"></script>
-    <script src="${ctx}/static/css/bootstrap.min.css"></script>
 
     <script>
         function register() {
@@ -27,7 +23,7 @@
                 async:false,
                 data: {
                     "username": username,
-                    "password": hex_md5(password)
+                    "password": password
                 },
                 success: function (data, textStatus) {
                     var response = JSON.parse(data);
@@ -55,7 +51,7 @@
         <label for="password" style="display:inline;">密码：</label>
         <input type="password" class="form-control" id="password" style="display:inline;width:200px;"autocomplete="off" />
     </div>
-    <button class="btn btn-primary" onclick="login()">登录</button>
-    <button class="btn btn-primary" onclick="register()">注册</button>
+    <button class="btn btn-primary" onclick="login();">登录</button>
+    <button class="btn btn-primary" onclick="register();">注册</button>
 </body>
 </html>

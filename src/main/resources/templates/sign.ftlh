@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <#assign ctx=springMacroRequestContext.contextPath />
 
@@ -7,11 +7,7 @@
     <title>注册</title>
 
     <script src="${ctx}/static/js/jquery-3.3.1.min.js"></script>
-    <script src="${ctx}/static/js/md5.js"></script>
-
     <script src="${ctx}/static/js/bootstrap.min.js"></script>
-    <script src="${ctx}/static/js/popper.min.js"></script>
-    <script src="${ctx}/static/css/bootstrap.min.css"></script>
 
     <script>
         function register() {
@@ -25,8 +21,8 @@
                 async: false,
                 data: {
                     "username": username,
-                    "password": hex_md5(password),
-                    "confirmPassword": hex_md5(confirmPassword)
+                    "password": password,
+                    "confirmPassword": confirmPassword
                 },
                 success: function (data) {
                     var response = JSON.parse(data);
