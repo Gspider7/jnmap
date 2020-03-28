@@ -11,6 +11,7 @@
 <form action="${ctx}/vuln/upload" method="post" enctype="multipart/form-data">
     <p><input type="file" name="file" multiple></p>
     <p><button type="submit">上传</button> </p>
+    <img src="${ctx}/static/img/down.gif" />
 </form>
 </body>
 </html>

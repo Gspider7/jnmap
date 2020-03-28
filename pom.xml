@@ -18,12 +18,13 @@
     </properties>
 
     <dependencies>
+        <!-- springboot项目基础依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- freemarker -->
+        <!-- freemarker前端模板工具 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
