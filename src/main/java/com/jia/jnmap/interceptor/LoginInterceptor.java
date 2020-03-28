@@ -36,7 +36,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         Integer userId = (Integer) request.getSession(true).getAttribute("userId");
         if (userId == null)  {
             // 用户未登录，重定向到登录页
-            response.sendRedirect("/user/login");
+            response.sendRedirect(request.getContextPath() + "/user/login");
             return false;  
         }
         return true;
