@@ -35,6 +35,11 @@ public class ResponseUtil {
         return serialize(response);
     }
 
+    public static String unmatch_password() {
+        Response response = new Response(1023, "两次输入的密码不匹配!");
+        return serialize(response);
+    }
+
     // ----------------------------------------------------------------------------
 
     private static String serialize(Response response) {

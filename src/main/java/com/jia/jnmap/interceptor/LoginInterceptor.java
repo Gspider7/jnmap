@@ -22,15 +22,20 @@ public class LoginInterceptor implements HandlerInterceptor {
         whiteList.add("/user/login");
         whiteList.add("/user/login/req");
     }
-    
-    @Override  
+
+    @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
-        String uri = request.getRequestURI();
-        if (whiteList.contains(uri)) return true;
-          
+//        String uri = request.getRequestURI();       // uri带了context path前缀
+
+        // 白名单放行
+        String path = request.getServletPath();
+        if (whiteList.contains(path)) return true;
+
+        // 检查用户是否登录
         Integer userId = (Integer) request.getSession(true).getAttribute("userId");
         if (userId == null)  {
+            // 用户未登录，重定向到登录页
             response.sendRedirect("/user/login");
             return false;  
         }
