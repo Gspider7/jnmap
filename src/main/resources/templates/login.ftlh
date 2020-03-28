@@ -7,6 +7,8 @@
     <title>登录</title>
 
     <script src="${ctx}/static/js/jquery-3.3.1.min.js"></script>
+    <script src="${ctx}/static/js/md5.js"></script>
+
     <script src="${ctx}/static/js/bootstrap.min.js"></script>
     <script src="${ctx}/static/js/popper.min.js"></script>
     <script src="${ctx}/static/css/bootstrap.min.css"></script>
@@ -25,7 +27,7 @@
                 async:false,
                 data: {
                     "username": username,
-                    "password": password
+                    "password": hex_md5(password)
                 },
                 success: function (data, textStatus) {
                     var response = JSON.parse(data);
