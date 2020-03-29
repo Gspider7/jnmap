@@ -24,9 +24,7 @@
 
 <div class="container">
 
-<#--
     <form class="form-signin">
--->
         <h2 class="form-signin-heading">请登录</h2>
         <label for="inputUsername" class="sr-only">用户名</label>
         <input type="text" id="inputUsername" class="form-control" placeholder="请输入用户名" required autofocus>
@@ -37,11 +35,9 @@
                 <input type="checkbox" value="remember-me"> Remember me
             </label>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" onclick="login()">登录</button>
-        <button class="btn btn-lg btn-primary btn-block" onclick="register()">注册</button>
-<#--
+        <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="login()">登录</button>
+        <button class="btn btn-lg btn-primary btn-block" type="button" onclick="register()">注册</button>
     </form>
--->
 
 </div> <!-- /container -->
 

@@ -24,19 +24,23 @@
 <div class="container">
 
 <#--
-    <form class="form-signin">
+    <form class="form-signin" action="${ctx}/user/sign/req" method="post">
 -->
+    <form id="sign-form" class="form-signin">
         <h2 class="form-signin-heading">请注册</h2>
         <label for="inputUsername" class="sr-only">用户名</label>
-        <input type="text" id="inputUsername" class="form-control" placeholder="请输入用户名" required autofocus>
+        <input type="text" id="inputUsername" name="username" class="form-control" placeholder="请输入用户名" required autofocus>
         <label for="inputPassword" class="sr-only">密码</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="请输入密码" required>
+        <input type="password" id="inputPassword" class="form-control" placeholder="请输入密码" required onchange="onPasswordChange()">
         <label for="inputConfirmPassword" class="sr-only">确认密码</label>
-        <input type="password" id="inputConfirmPassword" class="form-control" placeholder="请再次输入密码" required>
-        <button class="btn btn-lg btn-primary btn-block" onclick="register()">注册</button>
+        <input type="password" id="inputConfirmPassword" class="form-control" placeholder="请再次输入密码" required onchange="onConfirmPasswordChange()">
+        <input type="hidden" id="hiddenPassword" name="password">
+        <input type="hidden" id="hiddenConfirmPassword" name="confirmPassword">
 <#--
-    </form>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
 -->
+        <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="register()">注册</button>
+    </form>
 
 </div> <!-- /container -->
 
@@ -44,11 +48,26 @@
 <script src="${ctx}/static/js/jquery.md5.js"></script>
 <script src="${ctx}/static/js/bootstrap.min.js"></script>
 <script type="text/javascript">
+    function onPasswordChange() {
+        const password = $("#inputPassword").val();
+        $("#hiddenPassword").val($.md5(password));
+    }
+
+    function onConfirmPasswordChange() {
+        const confirmPassword = $("#inputConfirmPassword").val();
+        $("#hiddenConfirmPassword").val($.md5(confirmPassword));
+    }
+
     function register() {
+        // 执行表单校验
+        let inputList = $("#sign-form").find("input");
+        for (let i=0; i<inputList.length; i++) {
+            if (!inputList[i].checkValidity()) return;
+        }
+
         const username = $("#inputUsername").val();
         const password = $.md5($("#inputPassword").val());
         const confirmPassword = $.md5($("#inputConfirmPassword").val());
-
         $.ajax({
             method: "post",
             url: "${ctx}/user/sign/req",
@@ -58,6 +77,9 @@
                 username: username,
                 password: password,
                 confirmPassword: confirmPassword
+            },
+            beforeSend: function() {
+
             },
             success: function (result) {
                 const response = JSON.parse(result);
