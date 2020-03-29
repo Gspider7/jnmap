@@ -34,6 +34,7 @@
 
 	<select id="selectByUsername" resultType="com.jia.jnmap.entity.User">
 		SELECT
+			id AS id,
 		  	username AS username,
 		  	password AS password
 		FROM TBL_USER

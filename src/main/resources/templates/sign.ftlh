@@ -44,16 +44,14 @@
 <script src="${ctx}/static/js/jquery.md5.js"></script>
 <script src="${ctx}/static/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-    var ctx = "${ctx}";
-
     function register() {
         const username = $("#inputUsername").val();
-        const password = $("#inputPassword").val();
-        const confirmPassword = $("#inputConfirmPassword").val();
+        const password = $.md5($("#inputPassword").val());
+        const confirmPassword = $.md5($("#inputConfirmPassword").val());
 
         $.ajax({
             method: "post",
-            url: ctx + "/user/sign/req",
+            url: "${ctx}/user/sign/req",
             datatype: "json",
             async: false,
             data: {
@@ -65,7 +63,7 @@
                 const response = JSON.parse(result);
                 const code = response.code;
                 if (code === 0) {
-                    window.location.href = ctx + "/user/login";
+                    window.location.href = "${ctx}/user/login";
                 } else {
                     alert(response.message);
                 }
