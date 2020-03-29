@@ -1,61 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <#assign ctx=springMacroRequestContext.contextPath />
+<html lang="zh-CN">
 
-    <meta charset="utf-8" />
+<#assign ctx=springMacroRequestContext.contextPath />
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="${ctx}/static/icon/favicon.ico">
+
     <title>注册</title>
 
-    <script src="${ctx}/static/js/jquery-3.3.1.min.js"></script>
-    <script src="${ctx}/static/js/bootstrap.min.js"></script>
-
-    <script>
-        function register() {
-            var username = $('#username').val();
-            var password = $('#password').val();
-            var confirmPassword = $('#confirmPassword').val();
-
-            $.ajax({
-                type: "post",
-                url: "${ctx}/user/sign/req",
-                async: false,
-                data: {
-                    "username": username,
-                    "password": password,
-                    "confirmPassword": confirmPassword
-                },
-                success: function (data) {
-                    var response = JSON.parse(data);
-                    var code = response.code;
-                    if (code === 0) {
-                        window.location.href = "${ctx}/user/login";
-                        // $(window).attr("location", "${ctx}/user/login");
-                    } else {
-                        alert(response.message);
-                    }
-                },
-                error: function () {
-
-                }
-            });
-        }
-    </script>
+    <!-- Bootstrap core CSS -->
+    <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this page -->
+    <link href="${ctx}/static/css/login.css" rel="stylesheet">
 </head>
 
 <body>
-<!-- 注册表单 -->
-    <div class="form-group">
-        <label for="username" stype="display:inline;">用户名：</label>
-        <input type="text" class="form-control" id="username" style="display:inline;width:200px;" autocomplete="off" />
-    </div>
-    <div class="form-group">
-        <label for="password" style="display:inline;">密码：</label>
-        <input type="password" class="form-control" id="password" style="display:inline;width:200px;" autocomplete="off" />
-    </div>
-    <div class="form-group">
-        <label for="confirmPassword" style="display:inline;">确认密码：</label>
-        <input type="password" class="form-control" id="confirmPassword" style="display:inline;width:200px;" autocomplete="off" />
-    </div>
-    <button class="btn btn-primary" onclick="register()">确认注册</button>
+
+<div class="container">
+
+<#--
+    <form class="form-signin">
+-->
+        <h2 class="form-signin-heading">请注册</h2>
+        <label for="inputUsername" class="sr-only">用户名</label>
+        <input type="text" id="inputUsername" class="form-control" placeholder="请输入用户名" required autofocus>
+        <label for="inputPassword" class="sr-only">密码</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="请输入密码" required>
+        <label for="inputConfirmPassword" class="sr-only">确认密码</label>
+        <input type="password" id="inputConfirmPassword" class="form-control" placeholder="请再次输入密码" required>
+        <button class="btn btn-lg btn-primary btn-block" onclick="register()">注册</button>
+<#--
+    </form>
+-->
+
+</div> <!-- /container -->
+
+<script src="${ctx}/static/js/jquery.min.js"></script>
+<script src="${ctx}/static/js/jquery.md5.js"></script>
+<script src="${ctx}/static/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    var ctx = "${ctx}";
+
+    function register() {
+        const username = $("#inputUsername").val();
+        const password = $("#inputPassword").val();
+        const confirmPassword = $("#inputConfirmPassword").val();
+
+        $.ajax({
+            method: "post",
+            url: ctx + "/user/sign/req",
+            datatype: "json",
+            async: false,
+            data: {
+                username: username,
+                password: password,
+                confirmPassword: confirmPassword
+            },
+            success: function (result) {
+                const response = JSON.parse(result);
+                const code = response.code;
+                if (code === 0) {
+                    window.location.href = ctx + "/user/login";
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+    }
+</script>
+
 </body>
 </html>

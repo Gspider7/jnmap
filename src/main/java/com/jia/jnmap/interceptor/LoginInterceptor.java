@@ -28,9 +28,9 @@ public class LoginInterceptor implements HandlerInterceptor {
                              HttpServletResponse response, Object handler) throws Exception {
 //        String uri = request.getRequestURI();       // uri带了context path前缀
 
-        // 白名单放行
-        String path = request.getServletPath();
-        if (whiteList.contains(path)) return true;
+//        // 白名单放行
+//        String path = request.getServletPath();
+//        if (whiteList.contains(path)) return true;
 
         // 检查用户是否登录
         Integer userId = (Integer) request.getSession(true).getAttribute("userId");

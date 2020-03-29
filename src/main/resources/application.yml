@@ -45,8 +45,8 @@ spring:
         schema: classpath:sql/schema.sql                  # 初始化schema的SQL
 
     # config for access to static resources
-    resources:
-        static-locations: classpath:/static
+#    resources:
+#        static-locations: classpath:/static
     mvc:
         static-path-pattern: /static/**
 
