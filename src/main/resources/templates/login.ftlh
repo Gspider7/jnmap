@@ -35,8 +35,12 @@
                 <input type="checkbox" value="remember-me"> Remember me
             </label>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="login()">登录</button>
-        <button class="btn btn-lg btn-primary btn-block" type="button" onclick="register()">注册</button>
+        <div class="col-lg-5 col-lg-offset-0">
+            <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="login()">登录</button>
+        </div>
+        <div class="col-lg-5 col-lg-offset-2">
+            <button class="btn btn-lg btn-primary btn-block" type="button" onclick="register()">注册</button>
+        </div>
     </form>
 
 </div> <!-- /container -->

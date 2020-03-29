@@ -60,9 +60,15 @@ public class NmapScanner extends DefaultHandler {
         logger.info("漏洞分析完成");
 
         // 保存解析出的扫描结果和匹配的漏洞
-        for (NmapScanResult nmapScanResult : nmapScanResults) {
-            mapper.insertSelective(nmapScanResult);
+        int start = 0;
+        while (start < nmapScanResults.size()) {
+            List<NmapScanResult> subList = nmapScanResults.subList(start, Math.min(start + 1000, nmapScanResults.size()));
+            mapper.insertList(subList);
+            start += 1000;
         }
+//        for (NmapScanResult nmapScanResult : nmapScanResults) {
+//            mapper.insertSelective(nmapScanResult);
+//        }
     }
 
     // 解析nmap命令执行的xml输出

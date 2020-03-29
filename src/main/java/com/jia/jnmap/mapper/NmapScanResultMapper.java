@@ -12,14 +12,9 @@ public interface NmapScanResultMapper {
 
     int insertSelective(@Param("nmapScanResult") NmapScanResult nmapScanResult);
 
-    List<NmapScanResult> findByScanPlanId(@Param("scanPlanId") String scanPlanId);
-
-    int updateById(@Param("updated") NmapScanResult updated, @Param("id") String id);
+    int insertList(List<NmapScanResult> list);
 
     List<NmapScanResult> findByScanId(@Param("scanId") String scanId);
 
-    NmapScanResult findOneById(@Param("id") String id);
-
-    NmapScanResult findOneByIpv4AddressAndTemplateId(@Param("ipv4Address") String ipv4Address, @Param("templateId") String templateId);
-
+    int deleteByScanId(@Param("scanId") String scanId);
 }
