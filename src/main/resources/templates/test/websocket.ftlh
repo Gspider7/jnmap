@@ -29,7 +29,8 @@
             alert("该浏览器不支持websocket");
         }
 
-        var url = "ws://localhost:8090${ctx}/websocket";
+        // var url = "ws://localhost:8090${ctx}/websocket";
+        var url = "wss://localhost:8443${ctx}/websocket";
         websocket = new WebSocket(url);
 
         websocket.onopen = function () {
