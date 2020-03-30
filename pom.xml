@@ -18,10 +18,15 @@
     </properties>
 
     <dependencies>
-        <!-- springboot项目基础依赖 -->
+        <!-- web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- webSocket -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
 
         <!-- freemarker前端模板工具 -->
@@ -29,7 +34,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -154,6 +158,13 @@
             <version>23.6.1</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/guava-23.6.1.jar</systemPath>
+        </dependency>
+
+        <!-- ip地址处理工具库，支持ipv4和ipv6 -->
+        <dependency>
+            <groupId>com.github.seancfoley</groupId>
+            <artifactId>ipaddress</artifactId>
+            <version>5.2.1</version>
         </dependency>
     </dependencies>
 

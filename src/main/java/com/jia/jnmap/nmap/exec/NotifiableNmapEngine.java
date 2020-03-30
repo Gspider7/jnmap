@@ -11,6 +11,7 @@ import org.apache.commons.exec.*;
 import org.apache.commons.io.input.NullInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -21,6 +22,7 @@ import java.io.InputStream;
  * @author liuzheng@gcsoftware.com
  * @version 1.0.0
  */
+@Component
 public class NotifiableNmapEngine {
 
     // ------------------------------------------------------------------------

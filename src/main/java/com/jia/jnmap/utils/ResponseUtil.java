@@ -40,6 +40,16 @@ public class ResponseUtil {
         return serialize(response);
     }
 
+    public static String invalid_nmap_target() {
+        Response response = new Response(1040, "网段格式不正确!");
+        return serialize(response);
+    }
+
+    public static String miss_scan_config() {
+        Response response = new Response(1041, "找不到扫描配置信息!");
+        return serialize(response);
+    }
+
     // ----------------------------------------------------------------------------
 
     private static String serialize(Response response) {

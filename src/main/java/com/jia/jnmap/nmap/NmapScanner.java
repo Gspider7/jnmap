@@ -1,8 +1,8 @@
 package com.jia.jnmap.nmap;
 
 import com.gaff.staff.cpe.WFN;
-import com.jia.jnmap.mapper.NmapScanResultMapper;
 import com.jia.jnmap.entity.NmapScanResult;
+import com.jia.jnmap.mapper.NmapScanResultMapper;
 import com.jia.jnmap.nmap.entity.PortInfo;
 import com.jia.jnmap.nmap.entity.SystemInfo;
 import com.jia.jnmap.nmap.vuln.VulnerabilityLoader;
@@ -13,10 +13,10 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.helpers.DefaultHandler;
 
+import javax.annotation.Resource;
 import java.io.ByteArrayInputStream;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
@@ -30,11 +30,11 @@ public class NmapScanner extends DefaultHandler {
     private static final Logger logger = LoggerFactory.getLogger(NmapScanner.class);
 
 
-    @Autowired
+    @Resource
     private NmapScanResultMapper mapper;
-
-    @Autowired
+    @Resource
     private VulnerabilityLoader loader;
+
 
 //    @Autowired
 //    private LstBean lstBean;
@@ -55,9 +55,9 @@ public class NmapScanner extends DefaultHandler {
         }
 
         // 执行漏洞匹配
-        logger.info("开始分析漏洞...");
+        logger.info("开始分析漏洞，scanId：{}", scanId);
         loader.matchVulnerability(nmapScanResults);
-        logger.info("漏洞分析完成");
+        logger.info("漏洞分析完成，scanId：{}", scanId);
 
         // 保存解析出的扫描结果和匹配的漏洞
         int start = 0;

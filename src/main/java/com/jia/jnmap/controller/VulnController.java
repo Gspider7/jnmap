@@ -46,19 +46,19 @@ public class VulnController {
     // ------------------------------------------------------------------------------------
 
 
-    @RequestMapping(value = "/test", method = {RequestMethod.GET, RequestMethod.POST})
-    public String testUpload(Model model) {
+    @RequestMapping(value = "/upload", method = {RequestMethod.GET, RequestMethod.POST})
+    public String goToUploadPage(Model model) {
         Cache cache = JnmapCache.getTestCache();
 
         model.addAttribute("key", "value");
-        return "upload";
+        return "vuln/upload";
     }
 
     /**
      * 上传漏洞库
      */
     @ResponseBody
-    @PostMapping("/upload")
+    @PostMapping("/upload/req")
     public String uploadVulnStore(HttpServletRequest request) throws Exception {
         // 上传多个文件
         List<MultipartFile> mpfs = ((MultipartHttpServletRequest) request).getFiles("file");

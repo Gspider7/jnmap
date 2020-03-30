@@ -2,6 +2,8 @@ package com.jia.jnmap.entity;
 
 import com.jia.jnmap.utils.UUIDUtil;
 
+import java.util.Date;
+
 /**
  * 自定义扫描
  *
@@ -16,12 +18,15 @@ public class Scan {
     private String name;
     // 扫描目标
     private String target;
+    // 创建时间
+    private Date createTime;
 
     public Scan() {
     }
 
     public Scan(String name, String target) {
         this.id = UUIDUtil.uuid();
+        this.createTime = new Date();
 
         this.name = name;
         this.target = target;
@@ -49,5 +54,13 @@ public class Scan {
 
     public void setTarget(String target) {
         this.target = target;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }
