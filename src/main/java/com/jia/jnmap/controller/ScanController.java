@@ -1,12 +1,16 @@
 package com.jia.jnmap.controller;
 
+import com.jia.jnmap.domain.ScanStatusVO;
+import com.jia.jnmap.entity.NmapScanResult;
 import com.jia.jnmap.entity.Scan;
+import com.jia.jnmap.mapper.NmapScanResultMapper;
 import com.jia.jnmap.mapper.ScanMapper;
 import com.jia.jnmap.nmap.NmapCommandUtil;
 import com.jia.jnmap.nmap.NmapScanner;
 import com.jia.jnmap.nmap.exec.NmapOption;
 import com.jia.jnmap.nmap.exec.NotifiableNmapEngine;
 import com.jia.jnmap.utils.ResponseUtil;
+import com.jia.jnmap.websocket.JnmapWebsocket;
 import inet.ipaddr.IPAddressString;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.io.IOUtils;
@@ -46,6 +50,8 @@ public class ScanController {
 
     @Resource
     private ScanMapper scanMapper;
+    @Resource
+    private NmapScanResultMapper nmapScanResultMapper;
 
 
     /**
@@ -61,7 +67,7 @@ public class ScanController {
         page = page == null ? 1 : page;
         pageSize = pageSize == null ? 20 : pageSize;
 
-
+        // 分页查询
         List<Scan> scanList = scanMapper.selectPage(pageSize, (page - 1) * pageSize);
 
         model.addAttribute("scanList", scanList);
@@ -126,7 +132,8 @@ public class ScanController {
             optionList.add(NmapOption.SERVICE_VERSION);         // 端口服务发现
             optionList.add(NmapOption.OS_DETECTION);            // 操作系统发现
             optionList.add(NmapOption.OUTPUT_XML);              // 指定输出格式为xml
-            CommandLine cmd = NmapCommandUtil.buildCommand(true, optionList, scan.getTarget());
+//            CommandLine cmd = NmapCommandUtil.buildCommand(true, optionList, scan.getTarget());     // 适合linux的命令
+            CommandLine cmd = NmapCommandUtil.buildCommand(false, optionList, scan.getTarget());     // 适合windows的命令
 
             try {
                 // 执行命令
@@ -137,16 +144,37 @@ public class ScanController {
                 // 解析输出
                 nmapScanner.doResult(id, Collections.singletonList(writer.toString()));
 
-                // todo: 通知前端扫描成功
+                // 通知前端扫描成功
+                JnmapWebsocket.sendMessageToAll(new ScanStatusVO(id, "success"));
             } catch (Exception e) {
-                // todo: 通知前端扫描失败
-
+                // 通知前端扫描失败
+                JnmapWebsocket.sendMessageToAll(new ScanStatusVO(id, "fail"));
                 throw new RuntimeException("执行扫描失败", e);
             }
-
         }).start();
 
         return ResponseUtil.success();
     }
 
+    /**
+     * 分页查询扫描配置
+     *
+     * @param page      页码
+     * @param pageSize  每页多少记录
+     */
+    @RequestMapping("/result/list")
+    public String listScanResult(Model model,
+                                 @RequestParam("scanId") String scanId,
+                                 @RequestParam("page") Integer page,
+                                 @RequestParam("pageSize") Integer pageSize) {
+        page = page == null ? 1 : page;
+        pageSize = pageSize == null ? 20 : pageSize;
+
+        // 分页查询
+        if (StringUtils.isBlank(scanId)) scanId = null;
+        List<NmapScanResult> resultList = nmapScanResultMapper.selectPage(scanId, pageSize, (page - 1) * pageSize);
+
+        model.addAttribute("resultList", resultList);
+        return "scan/resultList";
+    }
 }

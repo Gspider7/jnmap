@@ -5,6 +5,7 @@ import com.jia.jnmap.nmap.entity.ScriptInfo;
 import com.jia.jnmap.nmap.entity.SystemInfo;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 public class NmapScanResult {
@@ -33,6 +34,9 @@ public class NmapScanResult {
     private SystemInfo systemInfo;
 
     private ArrayList<ScriptInfo> scriptInfos = new ArrayList<>();
+
+    private Date createTime;
+
 
     public String getId() {
         return id;
@@ -128,6 +132,14 @@ public class NmapScanResult {
 
     public void setScriptInfos(ArrayList<ScriptInfo> scriptInfos) {
         this.scriptInfos = scriptInfos;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public void addScriptInfo(String id, String output) {

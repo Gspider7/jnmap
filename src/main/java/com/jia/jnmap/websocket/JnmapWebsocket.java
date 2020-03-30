@@ -100,7 +100,7 @@ public class JnmapWebsocket {
      *
      * @param scanStatusVO  扫描执行状态
      */
-    public void sendMessageToAll(ScanStatusVO scanStatusVO) {
+    public static void sendMessageToAll(ScanStatusVO scanStatusVO) {
         try {
             String messageBody = JacksonUtil.writeValueAsString(scanStatusVO);
             for (JnmapWebsocket websocket : websocketSet) {
