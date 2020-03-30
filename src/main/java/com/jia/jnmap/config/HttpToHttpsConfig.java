@@ -2,8 +2,6 @@ package com.jia.jnmap.config;
 
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
-import org.apache.tomcat.util.descriptor.web.SecurityCollection;
-import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
@@ -31,13 +29,13 @@ public class HttpToHttpsConfig {
         TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
             @Override
             protected void postProcessContext(Context context) {
-            // 将http请求重定向到https，注释掉以后http也可以正常使用
-            SecurityConstraint constraint = new SecurityConstraint();
-            constraint.setUserConstraint("CONFIDENTIAL");
-            SecurityCollection collection = new SecurityCollection();
-            collection.addPattern("/*");
-            constraint.addCollection(collection);
-            context.addConstraint(constraint);
+//                // 将http请求重定向到https，注释掉以后http也可以正常使用
+//                SecurityConstraint constraint = new SecurityConstraint();
+//                constraint.setUserConstraint("CONFIDENTIAL");
+//                SecurityCollection collection = new SecurityCollection();
+//                collection.addPattern("/*");
+//                constraint.addCollection(collection);
+//                context.addConstraint(constraint);
             }
         };
         tomcat.addAdditionalTomcatConnectors(createStandardConnector());

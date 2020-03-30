@@ -22,10 +22,11 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // 登录拦截器，拦截除静态资源、登录外的所有请求
+        // 登录拦截器，拦截除静态资源、登录相关请求，测试相关请求外的所有请求
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/user/**")
+                .excludePathPatterns("/test/**")
                 .excludePathPatterns(staticPathPattern);
 
         WebMvcConfigurer.super.addInterceptors(registry);

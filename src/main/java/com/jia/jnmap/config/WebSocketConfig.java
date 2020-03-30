@@ -17,15 +17,7 @@ public class WebSocketConfig {
      */
     @Bean
     public ServerEndpointExporter serverEndpointExporter() {
-        return new ServerEndpointExporter();
-    }
 
-    /**
-     * 将WebSocket的EndPoint纳入spring管理
-     */
-    @Bean
-    public WebSocketEndpointConfigure getWebSocketConfig()
-    {
-        return new WebSocketEndpointConfigure();
+        return new ServerEndpointExporter();
     }
 }

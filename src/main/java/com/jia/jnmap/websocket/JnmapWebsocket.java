@@ -1,6 +1,5 @@
 package com.jia.jnmap.websocket;
 
-import com.jia.jnmap.config.WebSocketEndpointConfigure;
 import com.jia.jnmap.domain.ScanStatusVO;
 import com.jia.jnmap.utils.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -15,13 +14,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * websocket服务实例
+ * 前端连接地址： ${协议}//${host}:${port}/${contextPath}/${endPointPath}
+ * ws协议默认使用http服务端口，wss协议默认使用https服务端口
  *
  * @date 2018-11-23 09:58
  */
 @Slf4j
 @Component
 @Scope("prototype")         // 为每个webSocket连接创建一个实例
-@ServerEndpoint(value = "/websocket", configurator = WebSocketEndpointConfigure.class)
+@ServerEndpoint(value = "/websocket")
 public class JnmapWebsocket {
 
     // 记录当前在线连接数
@@ -66,6 +67,9 @@ public class JnmapWebsocket {
     public void onMessage(String message, Session session) {
 
         log.info("收到来自客户端的webSocket消息:{}", message);
+
+        // 测试用
+        sendMessage(message);
     }
 
     /**
@@ -75,6 +79,10 @@ public class JnmapWebsocket {
     public void onError(Session session, Throwable error) {
         log.info("webSocket发生错误", error);
     }
+
+
+
+    // ------------------------------------------------------------------------------------
 
 //    public void sendMessage(WebSocketMessageVO messageVO) {
 //        try {
@@ -96,13 +104,20 @@ public class JnmapWebsocket {
         try {
             String messageBody = JacksonUtil.writeValueAsString(scanStatusVO);
             for (JnmapWebsocket websocket : websocketSet) {
-                websocket.getSession().getBasicRemote().sendText(messageBody);
+                websocket.sendMessage(messageBody);
             }
         } catch (IOException e) {
             log.error("发送websocket消息失败", e);
         }
     }
 
+    public void sendMessage(String message) {
+        try {
+            session.getBasicRemote().sendText(message);
+        } catch (IOException e) {
+            log.error("发送websocket消息失败", e);
+        }
+    }
 
     // ------------------------------------------------------------------------------------
 
