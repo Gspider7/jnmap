@@ -158,7 +158,7 @@
         where SCAN_ID=#{scanId}
     </select>
 
-    <select id="selectPage" resultType="java.util.List">
+    <select id="selectPage" resultMap="BaseResultMap">
         SELECT
             <include refid="Base_Column_List"/>
         FROM TBL_NMAP_SCAN_RESULT

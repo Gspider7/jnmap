@@ -22,9 +22,24 @@
 
 <body>
 
-<div class="container">
+<div class="container" style="width: 80%">
 
+    <table id="scanListTable" class="table table-striped">
+        <thead>
+            <td>扫描名称</td>
+            <td>目标网段</td>
+            <td>操作</td>
+        </thead>
+        <#list scanList as scan>
+            <tr>
+                <td>${scan.name}</td>
+                <td>${scan.target}</td>
+                <td>
 
+                </td>
+            </tr>
+        </#list>
+    </table>
 
 </div> <!-- /container -->
 

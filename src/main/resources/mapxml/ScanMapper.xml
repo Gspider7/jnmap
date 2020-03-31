@@ -50,7 +50,7 @@
 		WHERE id = #{id}
 	</select>
 
-	<select id="selectPage" resultType="java.util.List">
+	<select id="selectPage" resultType="com.jia.jnmap.entity.Scan">
 		SELECT
 			id AS id,
 		  	name AS name,
