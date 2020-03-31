@@ -1,5 +1,7 @@
 package com.jia.jnmap.domain;
 
+import com.jia.jnmap.entity.Scan;
+
 import java.io.Serializable;
 
 /**
@@ -11,24 +13,35 @@ import java.io.Serializable;
 public class ScanStatusVO implements Serializable {
 
     // 扫描id
-    private String scanId;
+    private String id;
+    // 扫描名称
+    private String name;
     // 状态
     private String status;
 
     public ScanStatusVO() {
     }
 
-    public ScanStatusVO(String scanId, String status) {
-        this.scanId = scanId;
+    public ScanStatusVO(Scan scan, String status) {
+        this.id = scan == null ? null : scan.getId();
+        this.name = scan == null ? null : scan.getName();
         this.status = status;
     }
 
-    public String getScanId() {
-        return scanId;
+    public String getId() {
+        return id;
     }
 
-    public void setScanId(String scanId) {
-        this.scanId = scanId;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getStatus() {

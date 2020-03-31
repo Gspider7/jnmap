@@ -1,12 +1,19 @@
 package com.jia.jnmap.controller;
 
+import com.jia.jnmap.domain.CounterResult;
+import com.jia.jnmap.domain.NmapScanResultVo;
 import com.jia.jnmap.domain.ScanStatusVO;
+import com.jia.jnmap.domain.VulnerabilityVo;
 import com.jia.jnmap.entity.NmapScanResult;
 import com.jia.jnmap.entity.Scan;
+import com.jia.jnmap.entity.VulnBaseInfo;
 import com.jia.jnmap.mapper.NmapScanResultMapper;
 import com.jia.jnmap.mapper.ScanMapper;
+import com.jia.jnmap.mapper.VulnerabilityMapper;
 import com.jia.jnmap.nmap.NmapCommandUtil;
 import com.jia.jnmap.nmap.NmapScanner;
+import com.jia.jnmap.nmap.entity.PortInfo;
+import com.jia.jnmap.nmap.entity.SystemInfo;
 import com.jia.jnmap.nmap.exec.NmapOption;
 import com.jia.jnmap.nmap.exec.NotifiableNmapEngine;
 import com.jia.jnmap.utils.ResponseUtil;
@@ -27,9 +34,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import java.io.InputStream;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * 扫描管理接口
@@ -52,6 +57,8 @@ public class ScanController {
     private ScanMapper scanMapper;
     @Resource
     private NmapScanResultMapper nmapScanResultMapper;
+    @Resource
+    private VulnerabilityMapper vulnerabilityMapper;
 
 
     /**
@@ -62,8 +69,8 @@ public class ScanController {
      */
     @RequestMapping("/list")
     public String listScan(Model model,
-                           @RequestParam("page") Integer page,
-                           @RequestParam("pageSize") Integer pageSize) {
+                           @RequestParam(name = "page", required = false) Integer page,
+                           @RequestParam(name = "pageSize", required = false) Integer pageSize) {
         page = page == null ? 1 : page;
         pageSize = pageSize == null ? 20 : pageSize;
 
@@ -107,6 +114,7 @@ public class ScanController {
     @RequestMapping("/delete")
     public String deleteScan(@RequestParam("id") String id) {
         scanMapper.delete(id);
+        nmapScanResultMapper.deleteByScanId(id);
 
         return ResponseUtil.success();
     }
@@ -145,10 +153,10 @@ public class ScanController {
                 nmapScanner.doResult(id, Collections.singletonList(writer.toString()));
 
                 // 通知前端扫描成功
-                JnmapWebsocket.sendMessageToAll(new ScanStatusVO(id, "success"));
+                JnmapWebsocket.sendMessageToAll(new ScanStatusVO(scan, "success"));
             } catch (Exception e) {
                 // 通知前端扫描失败
-                JnmapWebsocket.sendMessageToAll(new ScanStatusVO(id, "fail"));
+                JnmapWebsocket.sendMessageToAll(new ScanStatusVO(scan, "fail"));
                 throw new RuntimeException("执行扫描失败", e);
             }
         }).start();
@@ -164,9 +172,9 @@ public class ScanController {
      */
     @RequestMapping("/result/list")
     public String listScanResult(Model model,
-                                 @RequestParam("scanId") String scanId,
-                                 @RequestParam("page") Integer page,
-                                 @RequestParam("pageSize") Integer pageSize) {
+                                 @RequestParam(name = "scanId", required = false) String scanId,
+                                 @RequestParam(name = "page", required = false) Integer page,
+                                 @RequestParam(name = "pageSize", required = false) Integer pageSize) {
         page = page == null ? 1 : page;
         pageSize = pageSize == null ? 20 : pageSize;
 
@@ -176,5 +184,117 @@ public class ScanController {
 
         model.addAttribute("resultList", resultList);
         return "scan/resultList";
+    }
+
+    /**
+     * 查看漏洞报告
+     */
+    @RequestMapping("/vuln-report")
+    public String viewVulnReport(Model model,
+                                 @RequestParam("scanId") String scanId) {
+        // 查询扫描配置
+        Scan scan = scanMapper.selectById(scanId);
+
+        // 查询扫描结果列表
+        List<NmapScanResult> nmapScanResults = nmapScanResultMapper.findByScanId(scanId);
+
+        // 组装VO
+        CounterResult counter = new CounterResult();
+        counter.setTotalHost(nmapScanResults.size());
+
+        List<NmapScanResultVo> nmapScanResultVos = new ArrayList<>();
+        List<NmapScanResultVo> kylinScanResultVos = new ArrayList<>();
+        for (NmapScanResult nmapScanResult : nmapScanResults) {
+            NmapScanResultVo nmapScanResultVo = new NmapScanResultVo(nmapScanResult);
+            List<PortInfo> portInfos = nmapScanResult.getPortInfos();
+            Set<String> vulnIds = new TreeSet<>();
+            for (PortInfo portInfo : portInfos) {
+                List<String> ids = portInfo.getVulnerability();
+                if (ids == null || ids.size() == 0) {
+                    continue;
+                }
+                vulnIds.addAll(ids);
+            }
+            List<VulnBaseInfo> vulnerabilities = null;
+            if (vulnIds.size() == 0) {
+                vulnerabilities = new ArrayList<>();
+            } else {
+                vulnerabilities = vulnerabilityMapper.selectAllVulnBaseInfoByIds(new ArrayList(vulnIds));
+            }
+            for (VulnBaseInfo vulnBaseInfo : vulnerabilities) {
+                String severity = vulnBaseInfo.getSeverity();
+                if ("超危".equals(severity)) {
+                    counter.setTotalVulnerabilityCritical(counter.getTotalVulnerabilityCritical() + 1);
+                    nmapScanResultVo.setVulnerabilityCriticalCount(nmapScanResultVo.getVulnerabilityCriticalCount() + 1);
+                } else if ("高危".equals(severity)) {
+                    counter.setTotalVulnerabilityHigh(counter.getTotalVulnerabilityHigh() + 1);
+                    nmapScanResultVo.setVulnerabilityHighCount(nmapScanResultVo.getVulnerabilityHighCount() + 1);
+                } else if ("中危".equals(severity)) {
+                    counter.setTotalVulnerabilityMedium(counter.getTotalVulnerabilityMedium() + 1);
+                    nmapScanResultVo.setVulnerabilityMediumCount(nmapScanResultVo.getVulnerabilityMediumCount() + 1);
+                } else if ("低危".equals(severity)) {
+                    counter.setTotalVulnerabilityLow(counter.getTotalVulnerabilityLow() + 1);
+                    nmapScanResultVo.setVulnerabilityLowCount(nmapScanResultVo.getVulnerabilityLowCount() + 1);
+                } else {
+                    counter.setTotalVulnerabilityUnknow(counter.getTotalVulnerabilityUnknow() + 1);
+                    nmapScanResultVo.setVulnerabilityUnknowCount(nmapScanResultVo.getVulnerabilityUnknowCount() + 1);
+                }
+            }
+            counter.setTotalVulnerability(counter.getTotalVulnerability() + vulnIds.size());
+            vulnerabilities.sort((v1, v2) -> v1.compare(v2));
+            nmapScanResultVo.setVulnerabilities(vulnerabilities);
+            SystemInfo systemInfo = nmapScanResult.getSystemInfo();
+            String family = systemInfo.getFamily();
+            if ("linux".equalsIgnoreCase(family)) {
+                counter.setTotalFamilyLinux(counter.getTotalFamilyLinux() + 1);
+            } else if ("android".equalsIgnoreCase(family)) {
+                counter.setTotalFamilyAndroid(counter.getTotalFamilyAndroid() + 1);
+            } else if ("windows".equalsIgnoreCase(family)) {
+                counter.setTotalFamilyWindows(counter.getTotalFamilyWindows() + 1);
+            } else if ("unix".equalsIgnoreCase(family)) {
+                counter.setTotalFamilyUnix(counter.getTotalFamilyUnix() + 1);
+            } else if ("kylin".equalsIgnoreCase(family)) {
+                counter.setTotalFamilyKylin(counter.getTotalFamilyKylin() + 1);
+                kylinScanResultVos.add(nmapScanResultVo);
+            } else {
+                counter.setTotalFamilyOther(counter.getTotalFamilyOther() + 1);
+            }
+            counter.setTotalPort(counter.getTotalPort() + portInfos.size());
+            nmapScanResultVos.add(nmapScanResultVo);
+        }
+
+        model.addAttribute("scan", scan);
+        model.addAttribute("counter", counter);
+        model.addAttribute("nmapScanResultVos", nmapScanResultVos);
+        model.addAttribute("vulnerabilityVos", getVulnerabilityVoFromNmapScanResultVos(nmapScanResultVos));
+        model.addAttribute("kylinScanResultVos", kylinScanResultVos);
+
+        return "scan/report/vuln";
+    }
+
+    // ------------------------------------------------------------------------------------
+
+    private List<VulnerabilityVo> getVulnerabilityVoFromNmapScanResultVos(List<NmapScanResultVo> nmapScanResultVos) {
+        Map<String, VulnerabilityVo> map = new HashMap<>();
+        for (NmapScanResultVo nmapScanResultVo : nmapScanResultVos) {
+            for (VulnBaseInfo vulnerability : nmapScanResultVo.getVulnerabilities()) {
+                if (!map.containsKey(vulnerability.getId())) {
+                    VulnerabilityVo vo = new VulnerabilityVo(vulnerability);
+                    vo.addNmapScanResultVo(nmapScanResultVo);
+                    map.put(vo.getVulnerability().getId(), vo);
+                } else {
+                    VulnerabilityVo vo = map.get(vulnerability.getId());
+                    if (!vo.getNmapScanResultVos().contains(nmapScanResultVo)) {
+                        vo.addNmapScanResultVo(nmapScanResultVo);
+                    }
+                }
+            }
+        }
+
+        List<VulnerabilityVo> vulnerabilityVos = new ArrayList<>(map.values());
+        vulnerabilityVos.sort((v1, v2) -> {
+            return v1.compare(v2);
+        });
+        return vulnerabilityVos;
     }
 }

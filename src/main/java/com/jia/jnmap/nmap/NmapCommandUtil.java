@@ -13,7 +13,8 @@ import java.util.List;
 public class NmapCommandUtil {
 
     // nmap安装路径
-    private static final String NMAP_DIR = "/usr/bin/nmap";
+//    private static final String NMAP_DIR = "/usr/bin/nmap";
+    private static final String NMAP_DIR = "nmap";
 
     /**
      * 构建nmap扫描指令

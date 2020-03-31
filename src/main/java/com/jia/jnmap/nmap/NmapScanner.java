@@ -59,6 +59,8 @@ public class NmapScanner extends DefaultHandler {
         loader.matchVulnerability(nmapScanResults);
         logger.info("漏洞分析完成，scanId：{}", scanId);
 
+        // 删除旧的扫描结果
+        mapper.deleteByScanId(scanId);
         // 保存解析出的扫描结果和匹配的漏洞
         int start = 0;
         while (start < nmapScanResults.size()) {

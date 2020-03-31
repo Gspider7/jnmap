@@ -98,9 +98,9 @@
             #{item.ipv6Address, javaType=java.lang.String, jdbcType=VARCHAR},
             #{item.macAddress, javaType=java.lang.String, jdbcType=VARCHAR},
             #{item.hostname, javaType=java.lang.String, jdbcType=VARCHAR},
-            #{item.portInfos, javaType=java.lang.String, jdbcType=LONGVARCHAR},
-            #{item.systemInfo, javaType=java.lang.String, jdbcType=LONGVARCHAR},
-            #{item.scriptInfos, javaType=java.lang.String, jdbcType=LONGVARCHAR}
+            #{item.portInfos},
+            #{item.systemInfo},
+            #{item.scriptInfos},
             #{item.createTime, javaType=java.util.Date, jdbcType=TIMESTAMP}
             )
         </foreach>

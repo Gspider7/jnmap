@@ -21,6 +21,11 @@ public class Scan {
     // 创建时间
     private Date createTime;
 
+    // 扫描策略
+    private String strategy;
+    // 扫描时间
+    private Date scanTime;
+
     public Scan() {
     }
 
@@ -62,5 +67,21 @@ public class Scan {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getStrategy() {
+        return strategy;
+    }
+
+    public void setStrategy(String strategy) {
+        this.strategy = strategy;
+    }
+
+    public Date getScanTime() {
+        return scanTime;
+    }
+
+    public void setScanTime(Date scanTime) {
+        this.scanTime = scanTime;
     }
 }

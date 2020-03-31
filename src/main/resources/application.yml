@@ -50,9 +50,12 @@ spring:
     mvc:
         static-path-pattern: /static/**
 
-freemarker:
-    content-type: text/html
-    charset: utf-8
+    freemarker:
+        content-type: text/html
+        charset: utf-8
+        settings:
+            classic_compatible: true    # avoid null expression error
+            datetime_format: yyyy-MM-dd HH:mm:ss
 
 mybatis:
     mapper-locations: classpath:mapxml/*.xml

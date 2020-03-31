@@ -24,9 +24,8 @@
 <div class="container">
 
 <#--
-    <form class="form-signin" action="${ctx}/user/sign/req" method="post">
--->
     <form id="sign-form" class="form-signin">
+-->
         <h2 class="form-signin-heading">请注册</h2>
         <label for="inputUsername" class="sr-only">用户名</label>
         <input type="text" id="inputUsername" name="username" class="form-control" placeholder="请输入用户名" required autofocus>
@@ -40,7 +39,9 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
 -->
         <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="register()">注册</button>
+<#--
     </form>
+-->
 
 </div> <!-- /container -->
 
@@ -59,11 +60,11 @@
     }
 
     function register() {
-        // 执行表单校验
-        let inputList = $("#sign-form").find("input");
-        for (let i=0; i<inputList.length; i++) {
-            if (!inputList[i].checkValidity()) return;
-        }
+        // // 执行表单校验
+        // let inputList = $("#sign-form").find("input");
+        // for (let i=0; i<inputList.length; i++) {
+        //     if (!inputList[i].checkValidity()) return;
+        // }
 
         const username = $("#inputUsername").val();
         const password = $.md5($("#inputPassword").val());

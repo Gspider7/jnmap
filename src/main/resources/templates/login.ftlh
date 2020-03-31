@@ -24,7 +24,9 @@
 
 <div class="container">
 
+<#--
     <form class="form-signin">
+-->
         <h2 class="form-signin-heading">请登录</h2>
         <label for="inputUsername" class="sr-only">用户名</label>
         <input type="text" id="inputUsername" class="form-control" placeholder="请输入用户名" required autofocus>
@@ -41,7 +43,9 @@
         <div class="col-lg-5 col-lg-offset-2">
             <button class="btn btn-lg btn-primary btn-block" type="button" onclick="register()">注册</button>
         </div>
+<#--
     </form>
+-->
 
 </div> <!-- /container -->
 
@@ -69,7 +73,7 @@
                 const response = JSON.parse(result);
                 const code = response.code;
                 if (code === 0) {
-                    window.location.href = "${ctx}/vuln/test";
+                    window.location.href = "${ctx}/scan/list";
                 } else {
                     alert(response.message);
                 }
