@@ -3,6 +3,8 @@ package com.jia.jnmap.utils;
 import java.security.MessageDigest;
 
 /**
+ * MD5加密工具类
+ *
  * @author xutao
  * @date 2020-03-15 12:24
  */

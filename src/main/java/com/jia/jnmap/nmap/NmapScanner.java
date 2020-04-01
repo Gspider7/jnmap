@@ -40,6 +40,12 @@ public class NmapScanner extends DefaultHandler {
 //    private LstBean lstBean;
 
 //    public void doResult(String scanPlanId, String scanId, String templateId, List<String> nmapResults, boolean isMatchVuln) throws DocumentException {
+
+    /**
+     * 解析nmap执行结果
+     * @param scanId        扫描id
+     * @param nmapResults   控制台输出字符串
+     */
     public void doResult(String scanId, List<String> nmapResults) throws DocumentException {
         List<NmapScanResult> nmapScanResults = new ArrayList<>();
         for (String nmapResult : nmapResults) {

@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.List;
 
 /**
+ * json序列化工具类
+ *
  * @author xutao
  * @date 2019-08-12 15:50
  */
