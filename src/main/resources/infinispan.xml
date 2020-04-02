@@ -21,5 +21,6 @@
         </local-cache-configuration>
 
         <local-cache name="test" configuration="local-template" />
+        <local-cache name="vuln_match_rule" configuration="local-template" />
     </cache-container>
 </infinispan>

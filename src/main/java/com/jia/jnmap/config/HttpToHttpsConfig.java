@@ -42,6 +42,12 @@ public class HttpToHttpsConfig {
             }
         };
         tomcat.addAdditionalTomcatConnectors(createStandardConnector());
+
+        // 解决高版本tomcat请求体中不能带特殊字符的问题
+        tomcat.addConnectorCustomizers((Connector connector) -> {
+            connector.setProperty("relaxedPathChars", "\"<>[\\]^`{|}");
+            connector.setProperty("relaxedQueryChars", "\"<>[\\]^`{|}");
+        });
         return tomcat;
     }
 
