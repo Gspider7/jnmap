@@ -29,3 +29,11 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### db ###
+*.db
+
+### infinispan ###
+*.dat
+
+
