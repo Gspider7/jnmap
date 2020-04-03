@@ -131,7 +131,7 @@
                 alert("漏洞库上传成功！");
                 window.location.href = "${ctx}/scan/list";
             }
-            else if ("" === type) {
+            else if ("SCAN_RESULT" === type) {
                 let id = message.id;
                 let name = message.name;
                 if ("success" === message.status) {
