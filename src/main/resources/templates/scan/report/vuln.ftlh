@@ -247,11 +247,7 @@
             <#list nmapScanResultVos as nmapScanResultVo>
             <tr>
                 <td>
-                    <#if resourceLocation == "">
-                        <a href="host-${nmapScanResultVo.nmapScanResult.ipv4Address}.html" target="_Blank">${nmapScanResultVo.nmapScanResult.ipv4Address}</a>
-                    <#else>
-                        <a href="/scout-rest/v1/scanReport/hostVulnerability?nmapScanResultId=${nmapScanResultVo.nmapScanResult.id}" target="_Blank">${nmapScanResultVo.nmapScanResult.ipv4Address}</a>
-                    </#if>
+                    <a href="${ctx}/scan/host-report?scanResultId=${nmapScanResultVo.nmapScanResult.id}" target="_Blank">${nmapScanResultVo.nmapScanResult.ipv4Address}</a>
                 </td>
                 <td>${nmapScanResultVo.nmapScanResult.hostname!"-"}</td>
                 <td>${nmapScanResultVo.nmapScanResult.systemInfo.family}</td>
@@ -307,11 +303,7 @@
                             <th style="width: 180px;">受影响主机</th>
                             <td>
                                 <#list vulnerabilityVo.nmapScanResultVos as nmapScanResultVo>
-                                    <#if resourceLocation == "">
-                                        <a href="host-${nmapScanResultVo.nmapScanResult.ipv4Address}.html" target="_Blank">${nmapScanResultVo.nmapScanResult.ipv4Address}; </a>
-                                    <#else>
-                                        <a href="/scout-rest/v1/scanReport/hostVulnerability?nmapScanResultId=${nmapScanResultVo.nmapScanResult.id}" target="_blank">${nmapScanResultVo.nmapScanResult.ipv4Address}; </a>
-                                    </#if>
+                                    <a href="${ctx}/scan/host-report?scanResultId=${nmapScanResultVo.nmapScanResult.id}" target="_Blank">${nmapScanResultVo.nmapScanResult.ipv4Address}</a>
                                 </#list>
                             </td>
                         </tr>
@@ -386,11 +378,7 @@
             <#list kylinScanResultVos as nmapScanResultVo>
                 <tr>
                     <td>
-                        <#if resourceLocation == "">
-                            <a href="host-${nmapScanResultVo.nmapScanResult.ipv4Address}.html" target="_Blank">${nmapScanResultVo.nmapScanResult.ipv4Address}</a>
-                        <#else>
-                            <a href="/scout-rest/v1/scanReport/hostVulnerability?nmapScanResultId=${nmapScanResultVo.nmapScanResult.id}" target="_Blank">${nmapScanResultVo.nmapScanResult.ipv4Address}</a>
-                        </#if>
+                        <a href="${ctx}/scan/host-report?scanResultId=${nmapScanResultVo.nmapScanResult.id}" target="_Blank">${nmapScanResultVo.nmapScanResult.ipv4Address}</a>
                     </td>
                     <td>${nmapScanResultVo.nmapScanResult.hostname!"-"}</td>
                     <td>${nmapScanResultVo.nmapScanResult.systemInfo.family}</td>

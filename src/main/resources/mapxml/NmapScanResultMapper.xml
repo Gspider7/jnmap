@@ -170,6 +170,13 @@
         LIMIT #{limit} OFFSET #{offset}
     </select>
 
+    <select id="selectById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from TBL_NMAP_SCAN_RESULT
+        where ID=#{id}
+    </select>
+
     <delete id="deleteByScanId">
         DELETE
         FROM TBL_NMAP_SCAN_RESULT

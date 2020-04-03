@@ -1,9 +1,6 @@
 package com.jia.jnmap.controller;
 
-import com.jia.jnmap.domain.CounterResult;
-import com.jia.jnmap.domain.NmapScanResultVo;
-import com.jia.jnmap.domain.ScanStatusVO;
-import com.jia.jnmap.domain.VulnerabilityVo;
+import com.jia.jnmap.domain.*;
 import com.jia.jnmap.entity.NmapScanResult;
 import com.jia.jnmap.entity.Scan;
 import com.jia.jnmap.entity.SystemLog;
@@ -194,6 +191,44 @@ public class ScanController {
 
         model.addAttribute("resultList", resultList);
         return "scan/resultList";
+    }
+
+    /**
+     * 查询主机报告
+     */
+    @RequestMapping("/host-report")
+    public String scanResult(Model model,
+                             @RequestParam(name = "scanResultId") String scanResultId) {
+        // 查询主机扫描结果
+        NmapScanResult nmapScanResult = nmapScanResultMapper.selectById(scanResultId);
+
+        // 封装数据返回
+        NmapScanResultVo nmapScanResultVo = new NmapScanResultVo(nmapScanResult);
+        List<PortInfo> portInfos = nmapScanResult.getPortInfos();
+        List<VulnBaseInfo> vulnerabilityList = new ArrayList<>();
+        List<PortInfoVo> portInfoVos = new ArrayList<>();
+        for (PortInfo portInfo : portInfos) {
+            PortInfoVo portInfoVo = new PortInfoVo(portInfo);
+            List<String> ids = portInfo.getVulnerability();
+            if (ids != null && ids.size() > 0) {
+                List<VulnBaseInfo> vulnerabilities = vulnerabilityMapper.selectAllVulnBaseInfoByIds(ids);
+                vulnerabilities.sort((v1, v2) -> v1.compare(v2));
+                portInfoVo.setVulnerabilities(vulnerabilities);
+
+                for (VulnBaseInfo vulnerability : vulnerabilities) {
+                    if (!vulnerabilityList.contains(vulnerability)) {
+                        vulnerabilityList.add(vulnerability);
+                    }
+                }
+            }
+            portInfoVos.add(portInfoVo);
+        }
+        vulnerabilityList.sort((v1, v2) -> v1.compare(v2));
+        nmapScanResultVo.setVulnerabilities(vulnerabilityList);
+
+        model.addAttribute("portInfoVos", portInfoVos);
+        model.addAttribute("nmapScanResultVo", nmapScanResultVo);
+        return "scan/report/host";
     }
 
     /**

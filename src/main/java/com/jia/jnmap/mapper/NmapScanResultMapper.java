@@ -19,5 +19,7 @@ public interface NmapScanResultMapper {
     List<NmapScanResult> selectPage(@Param("scanId") String scanId,
                                     @Param("limit") Integer limit, @Param("offset") Integer offset);
 
+    NmapScanResult selectById(@Param("id") String id);
+
     int deleteByScanId(@Param("scanId") String scanId);
 }
