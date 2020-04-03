@@ -2,15 +2,13 @@ package com.jia.jnmap.domain;
 
 import com.jia.jnmap.entity.Scan;
 
-import java.io.Serializable;
-
 /**
  * 发送给前端的扫描状态结构体
  *
  * @version 1.0.0
  * @date 2020-03-30 15:51
  */
-public class ScanStatusVO implements Serializable {
+public class ScanStatusVO extends WebsocketMessageVO {
 
     // 扫描id
     private String id;
@@ -26,6 +24,8 @@ public class ScanStatusVO implements Serializable {
         this.id = scan == null ? null : scan.getId();
         this.name = scan == null ? null : scan.getName();
         this.status = status;
+
+        setType(TYPE_SCAN_RESULT);
     }
 
     public String getId() {

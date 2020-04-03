@@ -1,25 +1,26 @@
 package com.jia.jnmap.controller;
 
-import com.jia.jnmap.context.JnmapCache;
+import com.jia.jnmap.domain.WebsocketMessageVO;
+import com.jia.jnmap.entity.SystemLog;
+import com.jia.jnmap.mapper.SystemLogMapper;
 import com.jia.jnmap.nmap.vuln.VulnerabilityLoader;
-import com.jia.jnmap.utils.UUIDUtil;
 import com.jia.jnmap.utils.ResponseUtil;
+import com.jia.jnmap.utils.UUIDUtil;
 import com.jia.jnmap.utils.ZipUtil;
+import com.jia.jnmap.websocket.JnmapWebsocket;
 import org.apache.commons.io.IOUtils;
-import org.infinispan.Cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -40,26 +41,29 @@ public class VulnController {
     // ------------------------------------------------------------------------------------
 
     @Resource
-    VulnerabilityLoader vulnerabilityLoader;
+    private VulnerabilityLoader vulnerabilityLoader;
+
+    @Resource
+    private SystemLogMapper systemLogMapper;
 
 
     // ------------------------------------------------------------------------------------
 
 
-    @RequestMapping(value = "/upload", method = {RequestMethod.GET, RequestMethod.POST})
-    public String goToUploadPage(Model model) {
-        Cache cache = JnmapCache.getTestCache();
-
-        model.addAttribute("key", "value");
-        return "vuln/upload";
-    }
+//    @RequestMapping(value = "/upload", method = {RequestMethod.GET, RequestMethod.POST})
+//    public String goToUploadPage(Model model) {
+//        Cache cache = JnmapCache.getTestCache();
+//
+//        model.addAttribute("key", "value");
+//        return "vuln/upload";
+//    }
 
     /**
      * 上传漏洞库
      */
     @ResponseBody
     @PostMapping("/upload/req")
-    public String uploadVulnStore(HttpServletRequest request) throws Exception {
+    public String uploadVulnStore(HttpServletRequest request, HttpSession session) throws Exception {
         // 上传多个文件
         List<MultipartFile> mpfs = ((MultipartHttpServletRequest) request).getFiles("file");
 
@@ -85,8 +89,17 @@ public class VulnController {
             vulnerabilityLoader.loadCve();
             vulnerabilityLoader.cleanCache();
 
+            // 记录系统日志
+            String username = (String) session.getAttribute("username");
+            SystemLog systemLog = new SystemLog(SystemLog.OP_VULN_OPLOAD, username, 1);
+            systemLogMapper.insert(systemLog);
+
             // 删除临时文件
             file.delete();
+
+            // 通知前端上传完成
+            WebsocketMessageVO messageVO = new WebsocketMessageVO(WebsocketMessageVO.TYPE_VULN_UPLOAD);
+            JnmapWebsocket.sendMessageToAll(messageVO);
         }
 
         return ResponseUtil.success();

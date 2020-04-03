@@ -1,6 +1,6 @@
 package com.jia.jnmap.websocket;
 
-import com.jia.jnmap.domain.ScanStatusVO;
+import com.jia.jnmap.domain.WebsocketMessageVO;
 import com.jia.jnmap.utils.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
@@ -98,11 +98,11 @@ public class JnmapWebsocket {
     /**
      * 给所有websockt连接客户端发送消息
      *
-     * @param scanStatusVO  扫描执行状态
+     * @param messageVO     消息结构体
      */
-    public static void sendMessageToAll(ScanStatusVO scanStatusVO) {
+    public static void sendMessageToAll(WebsocketMessageVO messageVO) {
         try {
-            String messageBody = JacksonUtil.writeValueAsString(scanStatusVO);
+            String messageBody = JacksonUtil.writeValueAsString(messageVO);
             for (JnmapWebsocket websocket : websocketSet) {
                 websocket.sendMessage(messageBody);
             }

@@ -6,9 +6,11 @@ import com.jia.jnmap.domain.ScanStatusVO;
 import com.jia.jnmap.domain.VulnerabilityVo;
 import com.jia.jnmap.entity.NmapScanResult;
 import com.jia.jnmap.entity.Scan;
+import com.jia.jnmap.entity.SystemLog;
 import com.jia.jnmap.entity.VulnBaseInfo;
 import com.jia.jnmap.mapper.NmapScanResultMapper;
 import com.jia.jnmap.mapper.ScanMapper;
+import com.jia.jnmap.mapper.SystemLogMapper;
 import com.jia.jnmap.mapper.VulnerabilityMapper;
 import com.jia.jnmap.nmap.NmapCommandUtil;
 import com.jia.jnmap.nmap.NmapScanner;
@@ -32,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.*;
@@ -54,6 +57,8 @@ public class ScanController {
     private NmapScanner nmapScanner;
 
     @Resource
+    private SystemLogMapper systemLogMapper;
+    @Resource
     private ScanMapper scanMapper;
     @Resource
     private NmapScanResultMapper nmapScanResultMapper;
@@ -68,16 +73,21 @@ public class ScanController {
      * @param pageSize  每页多少记录
      */
     @RequestMapping("/list")
-    public String listScan(Model model,
+    public String listScan(Model model, HttpSession session,
                            @RequestParam(name = "page", required = false) Integer page,
                            @RequestParam(name = "pageSize", required = false) Integer pageSize) {
         page = page == null ? 1 : page;
         pageSize = pageSize == null ? 20 : pageSize;
 
-        // 分页查询
-        List<Scan> scanList = scanMapper.selectPage(pageSize, (page - 1) * pageSize);
+        // 查询漏洞库更新时间
+        String username = (String) session.getAttribute("username");
+        SystemLog log = systemLogMapper.selectLast(SystemLog.OP_VULN_OPLOAD, username, 1);
+        model.addAttribute("vulnUpdateTime", log == null ? null : log.getOperationTime());
 
+        // 分页查询扫描配置
+        List<Scan> scanList = scanMapper.selectPage(pageSize, (page - 1) * pageSize);
         model.addAttribute("scanList", scanList);
+
         return "scan/list";
     }
 
@@ -165,7 +175,7 @@ public class ScanController {
     }
 
     /**
-     * 分页查询扫描配置
+     * 分页查询扫描结果
      *
      * @param page      页码
      * @param pageSize  每页多少记录
