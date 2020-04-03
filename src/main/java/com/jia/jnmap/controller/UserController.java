@@ -37,7 +37,8 @@ public class UserController {
 
     @RequestMapping(value = "/sign", method = {RequestMethod.GET, RequestMethod.POST})
     public String goToSignPage(Model model) {
-        return "sign";
+
+        return "signup";
     }
 
     /**
@@ -67,7 +68,8 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
     public String goToLoginPage(Model model) {
-        return "login";
+
+        return "signin";
     }
 
     /**

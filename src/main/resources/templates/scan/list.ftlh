@@ -24,7 +24,7 @@
 
 <div class="container" style="width: 80%">
 
-    <div>
+    <div style="margin-top: 5%">
     <#if vulnUpdateTime??>
         <h4>
             <span class="label label-info">漏洞库已上传，最近更新时间为：${vulnUpdateTime?datetime}</span>
@@ -43,9 +43,9 @@
             </div>
         </form>
     </div>
-    <div style="margin-top: 50px">
+    <div style="margin-top: 3%">
         <h3>扫描配置列表</h3>
-        <table id="scanListTable" class="table table-bordered" style="margin-top: 20px">
+        <table id="scanListTable" class="table table-bordered" style="margin-top: 1%">
             <thead>
             <tr>
                 <td>扫描名称</td>
